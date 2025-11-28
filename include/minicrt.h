@@ -36,3 +36,16 @@ char *itoa(int n, char *str, int radix);
 int strcmp(const char *src, const char *dst);
 char *strcpy(char *dst, const char *src);
 unsigned strlen(const char *str);
+
+// printf
+// ARM64 must use compiler-builtin implementation, cannot calculate offset
+// manually
+typedef __builtin_va_list va_list;
+#define va_start(ap, last) __builtin_va_start(ap, last)
+#define va_end(ap) __builtin_va_end(ap)
+#define va_arg(ap, type) __builtin_va_arg(ap, type)
+#define va_copy(d, s) __builtin_va_copy(d, s)
+
+int vfprintf(FILE *stream, const char *format, va_list arglist);
+int printf(const char *format, ...);
+int fprintf(FILE *stream, const char *format, ...);
