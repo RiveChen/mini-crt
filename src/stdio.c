@@ -1,17 +1,5 @@
 #include <minicrt.h>
 
-// TODO: move to string.c
-static int strcmp(const char *src, const char *dst) {
-  int ret = 0;
-  while (!(ret = *(unsigned char *)src - *(unsigned char *)dst) && *dst)
-    ++src, ++dst;
-  if (ret < 0)
-    ret = -1;
-  else if (ret > 0)
-    ret = 1;
-  return (ret);
-}
-
 // system call number definition (from /include/uapi/asm-generic/unistd.h)
 #define __NR_openat 56
 #define __NR_close 57

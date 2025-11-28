@@ -7,6 +7,7 @@ set(CRT_SOURCES
     src/main.c
     src/malloc.c
     src/stdio.c
+    src/string.c
 )
 
 add_executable(main ${CRT_SOURCES})

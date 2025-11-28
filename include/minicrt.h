@@ -30,3 +30,9 @@ int fread(void *buffer, int size, int count, FILE *stream);
 int fwrite(const void *buffer, int size, int count, FILE *stream);
 int fclose(FILE *fp);
 int fseek(FILE *fp, int offset, int set);
+
+// string
+char *itoa(int n, char *str, int radix);
+int strcmp(const char *src, const char *dst);
+char *strcpy(char *dst, const char *src);
+unsigned strlen(const char *str);
