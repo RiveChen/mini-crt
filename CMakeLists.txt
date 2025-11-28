@@ -6,6 +6,7 @@ set(CRT_SOURCES
     src/entry.c
     src/main.c
     src/malloc.c
+    src/stdio.c
 )
 
 add_executable(main ${CRT_SOURCES})
@@ -21,9 +22,6 @@ target_include_directories(main PRIVATE
 target_compile_options(main PRIVATE
     $<$<COMPILE_LANGUAGE:C>:
         -std=c11
-        -O2
-        -Wall
-        -Wextra
         -ffreestanding
         -nostdinc
         -fno-builtin

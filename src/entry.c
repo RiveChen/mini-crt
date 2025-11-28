@@ -5,6 +5,7 @@
 extern int main(int argc, char **argv, char **envp);
 
 extern int crt_heap_init(void);
+extern int mini_crt_io_init(void);
 
 // system call wrapper (can be moved to syscalls.c later)
 static void sys_exit(int code) {
@@ -30,7 +31,9 @@ void _crt_startup(uint64_t *sp) {
 
   // heap init
   crt_heap_init();
-  // TODO: I/O init
+
+  // I/O init
+  mini_crt_io_init();
 
   // call main function
   int ret = main((int)argc, argv, envp);
