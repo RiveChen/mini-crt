@@ -4,6 +4,8 @@
 // declare external symbols
 extern int main(int argc, char **argv, char **envp);
 
+extern int crt_heap_init(void);
+
 // system call wrapper (can be moved to syscalls.c later)
 static void sys_exit(int code) {
   register int32_t w0 __asm__("w0") = code;
@@ -26,7 +28,8 @@ void _crt_startup(uint64_t *sp) {
   char **argv = (char **)(sp + 1);
   char **envp = argv + argc + 1;
 
-  // TODO: heap init
+  // heap init
+  crt_heap_init();
   // TODO: I/O init
 
   // call main function

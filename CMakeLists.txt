@@ -1,16 +1,40 @@
 cmake_minimum_required(VERSION 3.14)
 project(MiniCRT LANGUAGES C ASM)
 
-# -ffreestanding: disable standard library features
-# -fno-builtin: disable builtin functions
-# -nostdinc: disable standard C library includes
-add_compile_options(-ffreestanding -fno-builtin -nostdinc)
+set(CRT_SOURCES
+    src/arch/aarch64/start.s
+    src/entry.c
+    src/main.c
+    src/malloc.c
+)
 
-# -nostdlib: disable standard library
-# -nostartfiles: disable startup files
-add_link_options(-nostdlib -nostartfiles)
+add_executable(main ${CRT_SOURCES})
 
-# SYSTEM: include directories are searched in the system directories first
-include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(main PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
 
-add_executable(main src/entry.c src/arch/aarch64/start.s src/main.c)
+# -ffreestanding: don't rely on libc
+# -nostdinc: don't use standard C library
+# -fno-builtin: don't use built-in functions
+# -fno-stack-protector: don't use stack protector
+target_compile_options(main PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+        -std=c11
+        -O2
+        -Wall
+        -Wextra
+        -ffreestanding
+        -nostdinc
+        -fno-builtin
+        -fno-stack-protector
+    >
+)
+
+target_link_options(main PRIVATE
+    -static
+    -nostdlib
+    -nostartfiles
+    "LINKER:-e,_start"
+    "LINKER:-Map=output.map"
+)
